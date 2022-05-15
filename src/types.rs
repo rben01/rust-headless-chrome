@@ -1,10 +1,10 @@
 use crate::protocol::cdp::{
     types::{Event, JsUInt},
     Browser,
+    Network::{CookieParam, DeleteCookies},
     Page,
+    Page::PrintToPDF,
     DOM::Node,
-    Network::{CookieParam,DeleteCookies},
-    Page::PrintToPDF
 };
 
 use serde::{Deserialize, Serialize};
@@ -73,7 +73,7 @@ impl Into<Option<Page::PrintToPDFTransfer_modeOption>> for TransferMode {
     }
 }
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Debug, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct PrintToPdfOptions {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -107,7 +107,7 @@ pub struct PrintToPdfOptions {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub prefer_css_page_size: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub transfer_mode: Option<TransferMode>
+    pub transfer_mode: Option<TransferMode>,
 }
 
 pub fn parse_raw_message(raw_message: &str) -> Result<Message> {
@@ -233,7 +233,7 @@ impl Default for PrintToPDF {
             prefer_css_page_size: None,
             print_background: None,
             scale: None,
-            transfer_mode: None
+            transfer_mode: None,
         }
     }
 }
